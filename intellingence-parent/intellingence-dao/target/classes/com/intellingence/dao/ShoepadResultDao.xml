@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.intellingence.dao.ShoepadResultDao">
+	<resultMap id="BaseResultMap" type="com.intellingence.pojo.ShoepadResult">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="VARCHAR" />
+		<result column="comment" property="comment" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="uuid" property="uuid" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="dataQuality" property="dataquality" jdbcType="VARCHAR" />
+		<result column="duration" property="duration" jdbcType="DOUBLE" />
+		<result column="stepCount" property="stepcount" jdbcType="INTEGER" />
+		<result column="stepRate" property="steprate" jdbcType="DOUBLE" />
+		<result column="strideLength" property="stridelength" jdbcType="DOUBLE" />
+		<result column="symmetry" property="symmetry" jdbcType="DOUBLE" />
+		<result column="variability" property="variability" jdbcType="DOUBLE" />
+		<result column="eversion_left" property="eversionLeft"
+			jdbcType="INTEGER" />
+		<result column="inversion_left" property="inversionLeft"
+			jdbcType="INTEGER" />
+		<result column="landingPosition_left" property="landingpositionLeft"
+			jdbcType="VARCHAR" />
+		<result column="stanceDurationMean_left" property="stancedurationmeanLeft"
+			jdbcType="DOUBLE" />
+		<result column="stepHeightMean_left" property="stepheightmeanLeft"
+			jdbcType="DOUBLE" />
+		<result column="supportStabilityMean_left" property="supportstabilitymeanLeft"
+			jdbcType="DOUBLE" />
+		<result column="swingWidthMean_left" property="swingwidthmeanLeft"
+			jdbcType="DOUBLE" />
+		<result column="eversion_right" property="eversionRight"
+			jdbcType="INTEGER" />
+		<result column="inversion_right" property="inversionRight"
+			jdbcType="INTEGER" />
+		<result column="landingPosition_right" property="landingpositionRight"
+			jdbcType="VARCHAR" />
+		<result column="stanceDurationMean_right" property="stancedurationmeanRight"
+			jdbcType="DOUBLE" />
+		<result column="stepHeightMean_right" property="stepheightmeanRight"
+			jdbcType="DOUBLE" />
+		<result column="supportStabilityMean_right" property="supportstabilitymeanRight"
+			jdbcType="DOUBLE" />
+		<result column="swingWidthMean_right" property="swingwidthmeanRight"
+			jdbcType="DOUBLE" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.intellingence.pojo.ShoepadResult"
+		extends="BaseResultMap">
+		<result column="creationTime" property="creationtime" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		<if test="fields == null">
+			ID, UserID, comment, description, type, uuid, version, dataQuality,
+			duration, stepCount,
+			stepRate, strideLength, symmetry, variability, eversion_left, inversion_left,
+			landingPosition_left,
+			stanceDurationMean_left, stepHeightMean_left, supportStabilityMean_left, swingWidthMean_left,
+			eversion_right, inversion_right, landingPosition_right,
+			stanceDurationMean_right,
+			stepHeightMean_right, supportStabilityMean_right, swingWidthMean_right
+		</if>
+		<if test="fields != null">
+			${fields}
+		</if>
+	</sql>
+	<sql id="Blob_Column_List">
+		creationTime
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.intellingence.pojo.ShoepadResultQuery">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from shoePad_result
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.intellingence.pojo.ShoepadResultQuery">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from shoePad_result
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="startRow != null">
+			limit #{startRow} , #{pageSize}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		ID,UserID,comment,description,type,uuid,version,dataQuality,duration,stepCount,stepRate,strideLength,symmetry,variability,eversion_left,inversion_left,landingPosition_left,stanceDurationMean_left,stepHeightMean_left,supportStabilityMean_left,swingWidthMean_left,eversion_right,inversion_right,landingPosition_right,stanceDurationMean_right,stepHeightMean_right,supportStabilityMean_right,swingWidthMean_right,creationTime
+		,
+		<include refid="Blob_Column_List" />
+		from shoePad_result
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shoePad_result
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.intellingence.pojo.ShoepadResultQuery">
+		delete from shoePad_result
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.intellingence.pojo.ShoepadResult">
+		insert into shoePad_result (ID, UserID, comment,
+		description, type, uuid,
+		version, dataQuality, duration,
+		stepCount, stepRate, strideLength,
+		symmetry, variability, eversion_left,
+		inversion_left, landingPosition_left, stanceDurationMean_left,
+		stepHeightMean_left, supportStabilityMean_left,
+		swingWidthMean_left, eversion_right, inversion_right,
+		landingPosition_right, stanceDurationMean_right,
+		stepHeightMean_right, supportStabilityMean_right,
+		swingWidthMean_right, creationTime)
+		values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR},
+		#{comment,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR},
+		#{version,jdbcType=VARCHAR}, #{dataquality,jdbcType=VARCHAR},
+		#{duration,jdbcType=DOUBLE},
+		#{stepcount,jdbcType=INTEGER}, #{steprate,jdbcType=DOUBLE}, #{stridelength,jdbcType=DOUBLE},
+		#{symmetry,jdbcType=DOUBLE}, #{variability,jdbcType=DOUBLE},
+		#{eversionLeft,jdbcType=INTEGER},
+		#{inversionLeft,jdbcType=INTEGER}, #{landingpositionLeft,jdbcType=VARCHAR},
+		#{stancedurationmeanLeft,jdbcType=DOUBLE},
+		#{stepheightmeanLeft,jdbcType=DOUBLE},
+		#{supportstabilitymeanLeft,jdbcType=DOUBLE},
+		#{swingwidthmeanLeft,jdbcType=DOUBLE},
+		#{eversionRight,jdbcType=INTEGER}, #{inversionRight,jdbcType=INTEGER},
+		#{landingpositionRight,jdbcType=VARCHAR},
+		#{stancedurationmeanRight,jdbcType=DOUBLE},
+		#{stepheightmeanRight,jdbcType=DOUBLE},
+		#{supportstabilitymeanRight,jdbcType=DOUBLE},
+		#{swingwidthmeanRight,jdbcType=DOUBLE},
+		#{creationtime,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.intellingence.pojo.ShoepadResult">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID();
+		</selectKey>
+		insert into shoePad_result
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="comment != null">
+				comment,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="uuid != null">
+				uuid,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="dataquality != null">
+				dataQuality,
+			</if>
+			<if test="duration != null">
+				duration,
+			</if>
+			<if test="stepcount != null">
+				stepCount,
+			</if>
+			<if test="steprate != null">
+				stepRate,
+			</if>
+			<if test="stridelength != null">
+				strideLength,
+			</if>
+			<if test="symmetry != null">
+				symmetry,
+			</if>
+			<if test="variability != null">
+				variability,
+			</if>
+			<if test="eversionLeft != null">
+				eversion_left,
+			</if>
+			<if test="inversionLeft != null">
+				inversion_left,
+			</if>
+			<if test="landingpositionLeft != null">
+				landingPosition_left,
+			</if>
+			<if test="stancedurationmeanLeft != null">
+				stanceDurationMean_left,
+			</if>
+			<if test="stepheightmeanLeft != null">
+				stepHeightMean_left,
+			</if>
+			<if test="supportstabilitymeanLeft != null">
+				supportStabilityMean_left,
+			</if>
+			<if test="swingwidthmeanLeft != null">
+				swingWidthMean_left,
+			</if>
+			<if test="eversionRight != null">
+				eversion_right,
+			</if>
+			<if test="inversionRight != null">
+				inversion_right,
+			</if>
+			<if test="landingpositionRight != null">
+				landingPosition_right,
+			</if>
+			<if test="stancedurationmeanRight != null">
+				stanceDurationMean_right,
+			</if>
+			<if test="stepheightmeanRight != null">
+				stepHeightMean_right,
+			</if>
+			<if test="supportstabilitymeanRight != null">
+				supportStabilityMean_right,
+			</if>
+			<if test="swingwidthmeanRight != null">
+				swingWidthMean_right,
+			</if>
+			<if test="creationtime != null">
+				creationTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="comment != null">
+				#{comment,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="uuid != null">
+				#{uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=VARCHAR},
+			</if>
+			<if test="dataquality != null">
+				#{dataquality,jdbcType=VARCHAR},
+			</if>
+			<if test="duration != null">
+				#{duration,jdbcType=DOUBLE},
+			</if>
+			<if test="stepcount != null">
+				#{stepcount,jdbcType=INTEGER},
+			</if>
+			<if test="steprate != null">
+				#{steprate,jdbcType=DOUBLE},
+			</if>
+			<if test="stridelength != null">
+				#{stridelength,jdbcType=DOUBLE},
+			</if>
+			<if test="symmetry != null">
+				#{symmetry,jdbcType=DOUBLE},
+			</if>
+			<if test="variability != null">
+				#{variability,jdbcType=DOUBLE},
+			</if>
+			<if test="eversionLeft != null">
+				#{eversionLeft,jdbcType=INTEGER},
+			</if>
+			<if test="inversionLeft != null">
+				#{inversionLeft,jdbcType=INTEGER},
+			</if>
+			<if test="landingpositionLeft != null">
+				#{landingpositionLeft,jdbcType=VARCHAR},
+			</if>
+			<if test="stancedurationmeanLeft != null">
+				#{stancedurationmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="stepheightmeanLeft != null">
+				#{stepheightmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="supportstabilitymeanLeft != null">
+				#{supportstabilitymeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="swingwidthmeanLeft != null">
+				#{swingwidthmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="eversionRight != null">
+				#{eversionRight,jdbcType=INTEGER},
+			</if>
+			<if test="inversionRight != null">
+				#{inversionRight,jdbcType=INTEGER},
+			</if>
+			<if test="landingpositionRight != null">
+				#{landingpositionRight,jdbcType=VARCHAR},
+			</if>
+			<if test="stancedurationmeanRight != null">
+				#{stancedurationmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="stepheightmeanRight != null">
+				#{stepheightmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="supportstabilitymeanRight != null">
+				#{supportstabilitymeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="swingwidthmeanRight != null">
+				#{swingwidthmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="creationtime != null">
+				#{creationtime,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.intellingence.pojo.ShoepadResultQuery"
+		resultType="java.lang.Integer">
+		select count(*) from shoePad_result
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update shoePad_result
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=VARCHAR},
+			</if>
+			<if test="record.comment != null">
+				comment = #{record.comment,jdbcType=VARCHAR},
+			</if>
+			<if test="record.description != null">
+				description = #{record.description,jdbcType=VARCHAR},
+			</if>
+			<if test="record.type != null">
+				type = #{record.type,jdbcType=VARCHAR},
+			</if>
+			<if test="record.uuid != null">
+				uuid = #{record.uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="record.version != null">
+				version = #{record.version,jdbcType=VARCHAR},
+			</if>
+			<if test="record.dataquality != null">
+				dataQuality = #{record.dataquality,jdbcType=VARCHAR},
+			</if>
+			<if test="record.duration != null">
+				duration = #{record.duration,jdbcType=DOUBLE},
+			</if>
+			<if test="record.stepcount != null">
+				stepCount = #{record.stepcount,jdbcType=INTEGER},
+			</if>
+			<if test="record.steprate != null">
+				stepRate = #{record.steprate,jdbcType=DOUBLE},
+			</if>
+			<if test="record.stridelength != null">
+				strideLength = #{record.stridelength,jdbcType=DOUBLE},
+			</if>
+			<if test="record.symmetry != null">
+				symmetry = #{record.symmetry,jdbcType=DOUBLE},
+			</if>
+			<if test="record.variability != null">
+				variability = #{record.variability,jdbcType=DOUBLE},
+			</if>
+			<if test="record.eversionLeft != null">
+				eversion_left = #{record.eversionLeft,jdbcType=INTEGER},
+			</if>
+			<if test="record.inversionLeft != null">
+				inversion_left = #{record.inversionLeft,jdbcType=INTEGER},
+			</if>
+			<if test="record.landingpositionLeft != null">
+				landingPosition_left =
+				#{record.landingpositionLeft,jdbcType=VARCHAR},
+			</if>
+			<if test="record.stancedurationmeanLeft != null">
+				stanceDurationMean_left =
+				#{record.stancedurationmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="record.stepheightmeanLeft != null">
+				stepHeightMean_left = #{record.stepheightmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="record.supportstabilitymeanLeft != null">
+				supportStabilityMean_left =
+				#{record.supportstabilitymeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="record.swingwidthmeanLeft != null">
+				swingWidthMean_left = #{record.swingwidthmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="record.eversionRight != null">
+				eversion_right = #{record.eversionRight,jdbcType=INTEGER},
+			</if>
+			<if test="record.inversionRight != null">
+				inversion_right = #{record.inversionRight,jdbcType=INTEGER},
+			</if>
+			<if test="record.landingpositionRight != null">
+				landingPosition_right =
+				#{record.landingpositionRight,jdbcType=VARCHAR},
+			</if>
+			<if test="record.stancedurationmeanRight != null">
+				stanceDurationMean_right =
+				#{record.stancedurationmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="record.stepheightmeanRight != null">
+				stepHeightMean_right =
+				#{record.stepheightmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="record.supportstabilitymeanRight != null">
+				supportStabilityMean_right =
+				#{record.supportstabilitymeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="record.swingwidthmeanRight != null">
+				swingWidthMean_right =
+				#{record.swingwidthmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="record.creationtime != null">
+				creationTime = #{record.creationtime,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update shoePad_result
+		set ID = #{record.id,jdbcType=INTEGER},
+		UserID = #{record.userid,jdbcType=VARCHAR},
+		comment = #{record.comment,jdbcType=VARCHAR},
+		description = #{record.description,jdbcType=VARCHAR},
+		type = #{record.type,jdbcType=VARCHAR},
+		uuid = #{record.uuid,jdbcType=VARCHAR},
+		version = #{record.version,jdbcType=VARCHAR},
+		dataQuality = #{record.dataquality,jdbcType=VARCHAR},
+		duration = #{record.duration,jdbcType=DOUBLE},
+		stepCount = #{record.stepcount,jdbcType=INTEGER},
+		stepRate = #{record.steprate,jdbcType=DOUBLE},
+		strideLength = #{record.stridelength,jdbcType=DOUBLE},
+		symmetry = #{record.symmetry,jdbcType=DOUBLE},
+		variability = #{record.variability,jdbcType=DOUBLE},
+		eversion_left = #{record.eversionLeft,jdbcType=INTEGER},
+		inversion_left = #{record.inversionLeft,jdbcType=INTEGER},
+		landingPosition_left = #{record.landingpositionLeft,jdbcType=VARCHAR},
+		stanceDurationMean_left =
+		#{record.stancedurationmeanLeft,jdbcType=DOUBLE},
+		stepHeightMean_left = #{record.stepheightmeanLeft,jdbcType=DOUBLE},
+		supportStabilityMean_left =
+		#{record.supportstabilitymeanLeft,jdbcType=DOUBLE},
+		swingWidthMean_left = #{record.swingwidthmeanLeft,jdbcType=DOUBLE},
+		eversion_right = #{record.eversionRight,jdbcType=INTEGER},
+		inversion_right = #{record.inversionRight,jdbcType=INTEGER},
+		landingPosition_right =
+		#{record.landingpositionRight,jdbcType=VARCHAR},
+		stanceDurationMean_right =
+		#{record.stancedurationmeanRight,jdbcType=DOUBLE},
+		stepHeightMean_right = #{record.stepheightmeanRight,jdbcType=DOUBLE},
+		supportStabilityMean_right =
+		#{record.supportstabilitymeanRight,jdbcType=DOUBLE},
+		swingWidthMean_right = #{record.swingwidthmeanRight,jdbcType=DOUBLE},
+		creationTime = #{record.creationtime,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update shoePad_result
+		set ID = #{record.id,jdbcType=INTEGER},
+		UserID = #{record.userid,jdbcType=VARCHAR},
+		comment = #{record.comment,jdbcType=VARCHAR},
+		description = #{record.description,jdbcType=VARCHAR},
+		type = #{record.type,jdbcType=VARCHAR},
+		uuid = #{record.uuid,jdbcType=VARCHAR},
+		version = #{record.version,jdbcType=VARCHAR},
+		dataQuality = #{record.dataquality,jdbcType=VARCHAR},
+		duration = #{record.duration,jdbcType=DOUBLE},
+		stepCount = #{record.stepcount,jdbcType=INTEGER},
+		stepRate = #{record.steprate,jdbcType=DOUBLE},
+		strideLength = #{record.stridelength,jdbcType=DOUBLE},
+		symmetry = #{record.symmetry,jdbcType=DOUBLE},
+		variability = #{record.variability,jdbcType=DOUBLE},
+		eversion_left = #{record.eversionLeft,jdbcType=INTEGER},
+		inversion_left = #{record.inversionLeft,jdbcType=INTEGER},
+		landingPosition_left = #{record.landingpositionLeft,jdbcType=VARCHAR},
+		stanceDurationMean_left =
+		#{record.stancedurationmeanLeft,jdbcType=DOUBLE},
+		stepHeightMean_left = #{record.stepheightmeanLeft,jdbcType=DOUBLE},
+		supportStabilityMean_left =
+		#{record.supportstabilitymeanLeft,jdbcType=DOUBLE},
+		swingWidthMean_left = #{record.swingwidthmeanLeft,jdbcType=DOUBLE},
+		eversion_right = #{record.eversionRight,jdbcType=INTEGER},
+		inversion_right = #{record.inversionRight,jdbcType=INTEGER},
+		landingPosition_right =
+		#{record.landingpositionRight,jdbcType=VARCHAR},
+		stanceDurationMean_right =
+		#{record.stancedurationmeanRight,jdbcType=DOUBLE},
+		stepHeightMean_right = #{record.stepheightmeanRight,jdbcType=DOUBLE},
+		supportStabilityMean_right =
+		#{record.supportstabilitymeanRight,jdbcType=DOUBLE},
+		swingWidthMean_right = #{record.swingwidthmeanRight,jdbcType=DOUBLE}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.intellingence.pojo.ShoepadResult">
+		update shoePad_result
+		<set>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="comment != null">
+				comment = #{comment,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="uuid != null">
+				uuid = #{uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				version = #{version,jdbcType=VARCHAR},
+			</if>
+			<if test="dataquality != null">
+				dataQuality = #{dataquality,jdbcType=VARCHAR},
+			</if>
+			<if test="duration != null">
+				duration = #{duration,jdbcType=DOUBLE},
+			</if>
+			<if test="stepcount != null">
+				stepCount = #{stepcount,jdbcType=INTEGER},
+			</if>
+			<if test="steprate != null">
+				stepRate = #{steprate,jdbcType=DOUBLE},
+			</if>
+			<if test="stridelength != null">
+				strideLength = #{stridelength,jdbcType=DOUBLE},
+			</if>
+			<if test="symmetry != null">
+				symmetry = #{symmetry,jdbcType=DOUBLE},
+			</if>
+			<if test="variability != null">
+				variability = #{variability,jdbcType=DOUBLE},
+			</if>
+			<if test="eversionLeft != null">
+				eversion_left = #{eversionLeft,jdbcType=INTEGER},
+			</if>
+			<if test="inversionLeft != null">
+				inversion_left = #{inversionLeft,jdbcType=INTEGER},
+			</if>
+			<if test="landingpositionLeft != null">
+				landingPosition_left = #{landingpositionLeft,jdbcType=VARCHAR},
+			</if>
+			<if test="stancedurationmeanLeft != null">
+				stanceDurationMean_left = #{stancedurationmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="stepheightmeanLeft != null">
+				stepHeightMean_left = #{stepheightmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="supportstabilitymeanLeft != null">
+				supportStabilityMean_left =
+				#{supportstabilitymeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="swingwidthmeanLeft != null">
+				swingWidthMean_left = #{swingwidthmeanLeft,jdbcType=DOUBLE},
+			</if>
+			<if test="eversionRight != null">
+				eversion_right = #{eversionRight,jdbcType=INTEGER},
+			</if>
+			<if test="inversionRight != null">
+				inversion_right = #{inversionRight,jdbcType=INTEGER},
+			</if>
+			<if test="landingpositionRight != null">
+				landingPosition_right = #{landingpositionRight,jdbcType=VARCHAR},
+			</if>
+			<if test="stancedurationmeanRight != null">
+				stanceDurationMean_right =
+				#{stancedurationmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="stepheightmeanRight != null">
+				stepHeightMean_right = #{stepheightmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="supportstabilitymeanRight != null">
+				supportStabilityMean_right =
+				#{supportstabilitymeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="swingwidthmeanRight != null">
+				swingWidthMean_right = #{swingwidthmeanRight,jdbcType=DOUBLE},
+			</if>
+			<if test="creationtime != null">
+				creationTime = #{creationtime,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.intellingence.pojo.ShoepadResult">
+		update shoePad_result
+		set UserID = #{userid,jdbcType=VARCHAR},
+		comment = #{comment,jdbcType=VARCHAR},
+		description = #{description,jdbcType=VARCHAR},
+		type = #{type,jdbcType=VARCHAR},
+		uuid = #{uuid,jdbcType=VARCHAR},
+		version = #{version,jdbcType=VARCHAR},
+		dataQuality = #{dataquality,jdbcType=VARCHAR},
+		duration = #{duration,jdbcType=DOUBLE},
+		stepCount = #{stepcount,jdbcType=INTEGER},
+		stepRate = #{steprate,jdbcType=DOUBLE},
+		strideLength = #{stridelength,jdbcType=DOUBLE},
+		symmetry = #{symmetry,jdbcType=DOUBLE},
+		variability = #{variability,jdbcType=DOUBLE},
+		eversion_left = #{eversionLeft,jdbcType=INTEGER},
+		inversion_left = #{inversionLeft,jdbcType=INTEGER},
+		landingPosition_left = #{landingpositionLeft,jdbcType=VARCHAR},
+		stanceDurationMean_left = #{stancedurationmeanLeft,jdbcType=DOUBLE},
+		stepHeightMean_left = #{stepheightmeanLeft,jdbcType=DOUBLE},
+		supportStabilityMean_left = #{supportstabilitymeanLeft,jdbcType=DOUBLE},
+		swingWidthMean_left = #{swingwidthmeanLeft,jdbcType=DOUBLE},
+		eversion_right = #{eversionRight,jdbcType=INTEGER},
+		inversion_right = #{inversionRight,jdbcType=INTEGER},
+		landingPosition_right = #{landingpositionRight,jdbcType=VARCHAR},
+		stanceDurationMean_right = #{stancedurationmeanRight,jdbcType=DOUBLE},
+		stepHeightMean_right = #{stepheightmeanRight,jdbcType=DOUBLE},
+		supportStabilityMean_right = #{supportstabilitymeanRight,jdbcType=DOUBLE},
+		swingWidthMean_right = #{swingwidthmeanRight,jdbcType=DOUBLE},
+		creationTime = #{creationtime,jdbcType=LONGVARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.intellingence.pojo.ShoepadResult">
+		update shoePad_result
+		set UserID = #{userid,jdbcType=VARCHAR},
+		comment = #{comment,jdbcType=VARCHAR},
+		description = #{description,jdbcType=VARCHAR},
+		type = #{type,jdbcType=VARCHAR},
+		uuid = #{uuid,jdbcType=VARCHAR},
+		version = #{version,jdbcType=VARCHAR},
+		dataQuality = #{dataquality,jdbcType=VARCHAR},
+		duration = #{duration,jdbcType=DOUBLE},
+		stepCount = #{stepcount,jdbcType=INTEGER},
+		stepRate = #{steprate,jdbcType=DOUBLE},
+		strideLength = #{stridelength,jdbcType=DOUBLE},
+		symmetry = #{symmetry,jdbcType=DOUBLE},
+		variability = #{variability,jdbcType=DOUBLE},
+		eversion_left = #{eversionLeft,jdbcType=INTEGER},
+		inversion_left = #{inversionLeft,jdbcType=INTEGER},
+		landingPosition_left = #{landingpositionLeft,jdbcType=VARCHAR},
+		stanceDurationMean_left = #{stancedurationmeanLeft,jdbcType=DOUBLE},
+		stepHeightMean_left = #{stepheightmeanLeft,jdbcType=DOUBLE},
+		supportStabilityMean_left = #{supportstabilitymeanLeft,jdbcType=DOUBLE},
+		swingWidthMean_left = #{swingwidthmeanLeft,jdbcType=DOUBLE},
+		eversion_right = #{eversionRight,jdbcType=INTEGER},
+		inversion_right = #{inversionRight,jdbcType=INTEGER},
+		landingPosition_right = #{landingpositionRight,jdbcType=VARCHAR},
+		stanceDurationMean_right = #{stancedurationmeanRight,jdbcType=DOUBLE},
+		stepHeightMean_right = #{stepheightmeanRight,jdbcType=DOUBLE},
+		supportStabilityMean_right = #{supportstabilitymeanRight,jdbcType=DOUBLE},
+		swingWidthMean_right = #{swingwidthmeanRight,jdbcType=DOUBLE}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	
+
+</mapper>

@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.intellingence.dao.ShoepadDataDao">
+	<resultMap id="BaseResultMap" type="com.intellingence.pojo.ShoepadData">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userid" property="userid" jdbcType="VARCHAR" />
+		<result column="resultId" property="resultid" jdbcType="INTEGER" />
+		<result column="uuid" property="uuid" jdbcType="VARCHAR" />
+		<result column="creationTime" property="creationtime" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="VARCHAR" />
+		<result column="height" property="height" jdbcType="VARCHAR" />
+		<result column="weight" property="weight" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+		<result column="leftChecksum" property="leftchecksum" jdbcType="VARCHAR" />
+		<result column="rightChecksum" property="rightchecksum"
+			jdbcType="VARCHAR" />
+		<result column="distance" property="distance" jdbcType="VARCHAR" />
+		<result column="duration" property="duration" jdbcType="VARCHAR" />
+		<result column="maxSpeed" property="maxspeed" jdbcType="VARCHAR" />
+		<result column="averageSpeed" property="averagespeed" jdbcType="VARCHAR" />
+		<result column="speedAllocationArray" property="speedallocationarray"
+			jdbcType="VARCHAR" />
+		<result column="calorie" property="calorie" jdbcType="VARCHAR" />
+		<result column="strideLengthArray" property="stridelengtharray"
+			jdbcType="VARCHAR" />
+		<result column="stepRateArray" property="stepratearray"
+			jdbcType="VARCHAR" />
+		<result column="stepHeigh" property="stepheigh" jdbcType="VARCHAR" />
+		<result column="swingWidth" property="swingwidth" jdbcType="VARCHAR" />
+		<result column="stanceDuration" property="stanceduration"
+			jdbcType="VARCHAR" />
+		<result column="landingCrash" property="landingcrash" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.intellingence.pojo.ShoepadDataWithBLOBs"
+		extends="BaseResultMap">
+		<result column="leftFile" property="leftfile" jdbcType="LONGVARCHAR" />
+		<result column="rightFile" property="rightfile" jdbcType="LONGVARCHAR" />
+		<result column="analysisResult" property="analysisresult"
+			jdbcType="LONGVARCHAR" />
+		<result column="trajectory" property="trajectory" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		<if test="fields == null">
+			id, userid, resultId, uuid, creationTime, type, name, gender, age,
+			height, weight,
+			phone, tag, leftChecksum, rightChecksum, distance, duration, maxSpeed,
+			averageSpeed,
+			speedAllocationArray, calorie, strideLengthArray, stepRateArray, stepHeigh, swingWidth,
+			stanceDuration, landingCrash
+		</if>
+		<if test="fields != null">
+			${fields}
+		</if>
+	</sql>
+	<sql id="Blob_Column_List">
+		leftFile, rightFile, analysisResult, trajectory
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.intellingence.pojo.ShoepadDataQuery">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from shoePad_data
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.intellingence.pojo.ShoepadDataQuery">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from shoePad_data
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="startRow != null">
+			limit #{startRow} , #{pageSize}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		id,userid,resultId,uuid,creationTime,type,name,gender,age,height,weight,phone,tag,leftChecksum,rightChecksum,distance,duration,maxSpeed,averageSpeed,speedAllocationArray,calorie,strideLengthArray,stepRateArray,stepHeigh,swingWidth,stanceDuration,landingCrash,leftFile,rightFile,analysisResult,trajectory
+		,
+		<include refid="Blob_Column_List" />
+		from shoePad_data
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shoePad_data
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.intellingence.pojo.ShoepadDataQuery">
+		delete from shoePad_data
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.intellingence.pojo.ShoepadDataWithBLOBs">
+		insert into shoePad_data (id, userid, resultId,
+		uuid, creationTime, type,
+		name, gender, age,
+		height, weight, phone,
+		tag, leftChecksum, rightChecksum,
+		distance, duration, maxSpeed,
+		averageSpeed, speedAllocationArray, calorie,
+		strideLengthArray, stepRateArray, stepHeigh,
+		swingWidth, stanceDuration, landingCrash,
+		leftFile, rightFile, analysisResult,
+		trajectory)
+		values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR},
+		#{resultid,jdbcType=INTEGER},
+		#{uuid,jdbcType=VARCHAR}, #{creationtime,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+		#{age,jdbcType=VARCHAR},
+		#{height,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+		#{tag,jdbcType=VARCHAR}, #{leftchecksum,jdbcType=VARCHAR},
+		#{rightchecksum,jdbcType=VARCHAR},
+		#{distance,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR}, #{maxspeed,jdbcType=VARCHAR},
+		#{averagespeed,jdbcType=VARCHAR},
+		#{speedallocationarray,jdbcType=VARCHAR}, #{calorie,jdbcType=VARCHAR},
+		#{stridelengtharray,jdbcType=VARCHAR},
+		#{stepratearray,jdbcType=VARCHAR}, #{stepheigh,jdbcType=VARCHAR},
+		#{swingwidth,jdbcType=VARCHAR}, #{stanceduration,jdbcType=VARCHAR},
+		#{landingcrash,jdbcType=VARCHAR},
+		#{leftfile,jdbcType=LONGVARCHAR}, #{rightfile,jdbcType=LONGVARCHAR},
+		#{analysisresult,jdbcType=LONGVARCHAR},
+		#{trajectory,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.intellingence.pojo.ShoepadDataWithBLOBs">
+		insert into shoePad_data
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="resultid != null">
+				resultId,
+			</if>
+			<if test="uuid != null">
+				uuid,
+			</if>
+			<if test="creationtime != null">
+				creationTime,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="gender != null">
+				gender,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="height != null">
+				height,
+			</if>
+			<if test="weight != null">
+				weight,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="tag != null">
+				tag,
+			</if>
+			<if test="leftchecksum != null">
+				leftChecksum,
+			</if>
+			<if test="rightchecksum != null">
+				rightChecksum,
+			</if>
+			<if test="distance != null">
+				distance,
+			</if>
+			<if test="duration != null">
+				duration,
+			</if>
+			<if test="maxspeed != null">
+				maxSpeed,
+			</if>
+			<if test="averagespeed != null">
+				averageSpeed,
+			</if>
+			<if test="speedallocationarray != null">
+				speedAllocationArray,
+			</if>
+			<if test="calorie != null">
+				calorie,
+			</if>
+			<if test="stridelengtharray != null">
+				strideLengthArray,
+			</if>
+			<if test="stepratearray != null">
+				stepRateArray,
+			</if>
+			<if test="stepheigh != null">
+				stepHeigh,
+			</if>
+			<if test="swingwidth != null">
+				swingWidth,
+			</if>
+			<if test="stanceduration != null">
+				stanceDuration,
+			</if>
+			<if test="landingcrash != null">
+				landingCrash,
+			</if>
+			<if test="leftfile != null">
+				leftFile,
+			</if>
+			<if test="rightfile != null">
+				rightFile,
+			</if>
+			<if test="analysisresult != null">
+				analysisResult,
+			</if>
+			<if test="trajectory != null">
+				trajectory,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="resultid != null">
+				#{resultid,jdbcType=INTEGER},
+			</if>
+			<if test="uuid != null">
+				#{uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="creationtime != null">
+				#{creationtime,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				#{gender,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=VARCHAR},
+			</if>
+			<if test="height != null">
+				#{height,jdbcType=VARCHAR},
+			</if>
+			<if test="weight != null">
+				#{weight,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="tag != null">
+				#{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="leftchecksum != null">
+				#{leftchecksum,jdbcType=VARCHAR},
+			</if>
+			<if test="rightchecksum != null">
+				#{rightchecksum,jdbcType=VARCHAR},
+			</if>
+			<if test="distance != null">
+				#{distance,jdbcType=VARCHAR},
+			</if>
+			<if test="duration != null">
+				#{duration,jdbcType=VARCHAR},
+			</if>
+			<if test="maxspeed != null">
+				#{maxspeed,jdbcType=VARCHAR},
+			</if>
+			<if test="averagespeed != null">
+				#{averagespeed,jdbcType=VARCHAR},
+			</if>
+			<if test="speedallocationarray != null">
+				#{speedallocationarray,jdbcType=VARCHAR},
+			</if>
+			<if test="calorie != null">
+				#{calorie,jdbcType=VARCHAR},
+			</if>
+			<if test="stridelengtharray != null">
+				#{stridelengtharray,jdbcType=VARCHAR},
+			</if>
+			<if test="stepratearray != null">
+				#{stepratearray,jdbcType=VARCHAR},
+			</if>
+			<if test="stepheigh != null">
+				#{stepheigh,jdbcType=VARCHAR},
+			</if>
+			<if test="swingwidth != null">
+				#{swingwidth,jdbcType=VARCHAR},
+			</if>
+			<if test="stanceduration != null">
+				#{stanceduration,jdbcType=VARCHAR},
+			</if>
+			<if test="landingcrash != null">
+				#{landingcrash,jdbcType=VARCHAR},
+			</if>
+			<if test="leftfile != null">
+				#{leftfile,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="rightfile != null">
+				#{rightfile,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="analysisresult != null">
+				#{analysisresult,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="trajectory != null">
+				#{trajectory,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.intellingence.pojo.ShoepadDataQuery"
+		resultType="java.lang.Integer">
+		select count(*) from shoePad_data
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update shoePad_data
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				userid = #{record.userid,jdbcType=VARCHAR},
+			</if>
+			<if test="record.resultid != null">
+				resultId = #{record.resultid,jdbcType=INTEGER},
+			</if>
+			<if test="record.uuid != null">
+				uuid = #{record.uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="record.creationtime != null">
+				creationTime = #{record.creationtime,jdbcType=VARCHAR},
+			</if>
+			<if test="record.type != null">
+				type = #{record.type,jdbcType=VARCHAR},
+			</if>
+			<if test="record.name != null">
+				name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.gender != null">
+				gender = #{record.gender,jdbcType=VARCHAR},
+			</if>
+			<if test="record.age != null">
+				age = #{record.age,jdbcType=VARCHAR},
+			</if>
+			<if test="record.height != null">
+				height = #{record.height,jdbcType=VARCHAR},
+			</if>
+			<if test="record.weight != null">
+				weight = #{record.weight,jdbcType=VARCHAR},
+			</if>
+			<if test="record.phone != null">
+				phone = #{record.phone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.tag != null">
+				tag = #{record.tag,jdbcType=VARCHAR},
+			</if>
+			<if test="record.leftchecksum != null">
+				leftChecksum = #{record.leftchecksum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.rightchecksum != null">
+				rightChecksum = #{record.rightchecksum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.distance != null">
+				distance = #{record.distance,jdbcType=VARCHAR},
+			</if>
+			<if test="record.duration != null">
+				duration = #{record.duration,jdbcType=VARCHAR},
+			</if>
+			<if test="record.maxspeed != null">
+				maxSpeed = #{record.maxspeed,jdbcType=VARCHAR},
+			</if>
+			<if test="record.averagespeed != null">
+				averageSpeed = #{record.averagespeed,jdbcType=VARCHAR},
+			</if>
+			<if test="record.speedallocationarray != null">
+				speedAllocationArray =
+				#{record.speedallocationarray,jdbcType=VARCHAR},
+			</if>
+			<if test="record.calorie != null">
+				calorie = #{record.calorie,jdbcType=VARCHAR},
+			</if>
+			<if test="record.stridelengtharray != null">
+				strideLengthArray = #{record.stridelengtharray,jdbcType=VARCHAR},
+			</if>
+			<if test="record.stepratearray != null">
+				stepRateArray = #{record.stepratearray,jdbcType=VARCHAR},
+			</if>
+			<if test="record.stepheigh != null">
+				stepHeigh = #{record.stepheigh,jdbcType=VARCHAR},
+			</if>
+			<if test="record.swingwidth != null">
+				swingWidth = #{record.swingwidth,jdbcType=VARCHAR},
+			</if>
+			<if test="record.stanceduration != null">
+				stanceDuration = #{record.stanceduration,jdbcType=VARCHAR},
+			</if>
+			<if test="record.landingcrash != null">
+				landingCrash = #{record.landingcrash,jdbcType=VARCHAR},
+			</if>
+			<if test="record.leftfile != null">
+				leftFile = #{record.leftfile,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.rightfile != null">
+				rightFile = #{record.rightfile,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.analysisresult != null">
+				analysisResult = #{record.analysisresult,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.trajectory != null">
+				trajectory = #{record.trajectory,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update shoePad_data
+		set id = #{record.id,jdbcType=INTEGER},
+		userid = #{record.userid,jdbcType=VARCHAR},
+		resultId = #{record.resultid,jdbcType=INTEGER},
+		uuid = #{record.uuid,jdbcType=VARCHAR},
+		creationTime = #{record.creationtime,jdbcType=VARCHAR},
+		type = #{record.type,jdbcType=VARCHAR},
+		name = #{record.name,jdbcType=VARCHAR},
+		gender = #{record.gender,jdbcType=VARCHAR},
+		age = #{record.age,jdbcType=VARCHAR},
+		height = #{record.height,jdbcType=VARCHAR},
+		weight = #{record.weight,jdbcType=VARCHAR},
+		phone = #{record.phone,jdbcType=VARCHAR},
+		tag = #{record.tag,jdbcType=VARCHAR},
+		leftChecksum = #{record.leftchecksum,jdbcType=VARCHAR},
+		rightChecksum = #{record.rightchecksum,jdbcType=VARCHAR},
+		distance = #{record.distance,jdbcType=VARCHAR},
+		duration = #{record.duration,jdbcType=VARCHAR},
+		maxSpeed = #{record.maxspeed,jdbcType=VARCHAR},
+		averageSpeed = #{record.averagespeed,jdbcType=VARCHAR},
+		speedAllocationArray = #{record.speedallocationarray,jdbcType=VARCHAR},
+		calorie = #{record.calorie,jdbcType=VARCHAR},
+		strideLengthArray = #{record.stridelengtharray,jdbcType=VARCHAR},
+		stepRateArray = #{record.stepratearray,jdbcType=VARCHAR},
+		stepHeigh = #{record.stepheigh,jdbcType=VARCHAR},
+		swingWidth = #{record.swingwidth,jdbcType=VARCHAR},
+		stanceDuration = #{record.stanceduration,jdbcType=VARCHAR},
+		landingCrash = #{record.landingcrash,jdbcType=VARCHAR},
+		leftFile = #{record.leftfile,jdbcType=LONGVARCHAR},
+		rightFile = #{record.rightfile,jdbcType=LONGVARCHAR},
+		analysisResult = #{record.analysisresult,jdbcType=LONGVARCHAR},
+		trajectory = #{record.trajectory,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update shoePad_data
+		set id = #{record.id,jdbcType=INTEGER},
+		userid = #{record.userid,jdbcType=VARCHAR},
+		resultId = #{record.resultid,jdbcType=INTEGER},
+		uuid = #{record.uuid,jdbcType=VARCHAR},
+		creationTime = #{record.creationtime,jdbcType=VARCHAR},
+		type = #{record.type,jdbcType=VARCHAR},
+		name = #{record.name,jdbcType=VARCHAR},
+		gender = #{record.gender,jdbcType=VARCHAR},
+		age = #{record.age,jdbcType=VARCHAR},
+		height = #{record.height,jdbcType=VARCHAR},
+		weight = #{record.weight,jdbcType=VARCHAR},
+		phone = #{record.phone,jdbcType=VARCHAR},
+		tag = #{record.tag,jdbcType=VARCHAR},
+		leftChecksum = #{record.leftchecksum,jdbcType=VARCHAR},
+		rightChecksum = #{record.rightchecksum,jdbcType=VARCHAR},
+		distance = #{record.distance,jdbcType=VARCHAR},
+		duration = #{record.duration,jdbcType=VARCHAR},
+		maxSpeed = #{record.maxspeed,jdbcType=VARCHAR},
+		averageSpeed = #{record.averagespeed,jdbcType=VARCHAR},
+		speedAllocationArray = #{record.speedallocationarray,jdbcType=VARCHAR},
+		calorie = #{record.calorie,jdbcType=VARCHAR},
+		strideLengthArray = #{record.stridelengtharray,jdbcType=VARCHAR},
+		stepRateArray = #{record.stepratearray,jdbcType=VARCHAR},
+		stepHeigh = #{record.stepheigh,jdbcType=VARCHAR},
+		swingWidth = #{record.swingwidth,jdbcType=VARCHAR},
+		stanceDuration = #{record.stanceduration,jdbcType=VARCHAR},
+		landingCrash = #{record.landingcrash,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.intellingence.pojo.ShoepadDataWithBLOBs">
+		update shoePad_data
+		<set>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="resultid != null">
+				resultId = #{resultid,jdbcType=INTEGER},
+			</if>
+			<if test="uuid != null">
+				uuid = #{uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="creationtime != null">
+				creationTime = #{creationtime,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=VARCHAR},
+			</if>
+			<if test="height != null">
+				height = #{height,jdbcType=VARCHAR},
+			</if>
+			<if test="weight != null">
+				weight = #{weight,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="tag != null">
+				tag = #{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="leftchecksum != null">
+				leftChecksum = #{leftchecksum,jdbcType=VARCHAR},
+			</if>
+			<if test="rightchecksum != null">
+				rightChecksum = #{rightchecksum,jdbcType=VARCHAR},
+			</if>
+			<if test="distance != null">
+				distance = #{distance,jdbcType=VARCHAR},
+			</if>
+			<if test="duration != null">
+				duration = #{duration,jdbcType=VARCHAR},
+			</if>
+			<if test="maxspeed != null">
+				maxSpeed = #{maxspeed,jdbcType=VARCHAR},
+			</if>
+			<if test="averagespeed != null">
+				averageSpeed = #{averagespeed,jdbcType=VARCHAR},
+			</if>
+			<if test="speedallocationarray != null">
+				speedAllocationArray = #{speedallocationarray,jdbcType=VARCHAR},
+			</if>
+			<if test="calorie != null">
+				calorie = #{calorie,jdbcType=VARCHAR},
+			</if>
+			<if test="stridelengtharray != null">
+				strideLengthArray = #{stridelengtharray,jdbcType=VARCHAR},
+			</if>
+			<if test="stepratearray != null">
+				stepRateArray = #{stepratearray,jdbcType=VARCHAR},
+			</if>
+			<if test="stepheigh != null">
+				stepHeigh = #{stepheigh,jdbcType=VARCHAR},
+			</if>
+			<if test="swingwidth != null">
+				swingWidth = #{swingwidth,jdbcType=VARCHAR},
+			</if>
+			<if test="stanceduration != null">
+				stanceDuration = #{stanceduration,jdbcType=VARCHAR},
+			</if>
+			<if test="landingcrash != null">
+				landingCrash = #{landingcrash,jdbcType=VARCHAR},
+			</if>
+			<if test="leftfile != null">
+				leftFile = #{leftfile,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="rightfile != null">
+				rightFile = #{rightfile,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="analysisresult != null">
+				analysisResult = #{analysisresult,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="trajectory != null">
+				trajectory = #{trajectory,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.intellingence.pojo.ShoepadDataWithBLOBs">
+		update shoePad_data
+		set userid = #{userid,jdbcType=VARCHAR},
+		resultId = #{resultid,jdbcType=INTEGER},
+		uuid = #{uuid,jdbcType=VARCHAR},
+		creationTime = #{creationtime,jdbcType=VARCHAR},
+		type = #{type,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		gender = #{gender,jdbcType=VARCHAR},
+		age = #{age,jdbcType=VARCHAR},
+		height = #{height,jdbcType=VARCHAR},
+		weight = #{weight,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		tag = #{tag,jdbcType=VARCHAR},
+		leftChecksum = #{leftchecksum,jdbcType=VARCHAR},
+		rightChecksum = #{rightchecksum,jdbcType=VARCHAR},
+		distance = #{distance,jdbcType=VARCHAR},
+		duration = #{duration,jdbcType=VARCHAR},
+		maxSpeed = #{maxspeed,jdbcType=VARCHAR},
+		averageSpeed = #{averagespeed,jdbcType=VARCHAR},
+		speedAllocationArray = #{speedallocationarray,jdbcType=VARCHAR},
+		calorie = #{calorie,jdbcType=VARCHAR},
+		strideLengthArray = #{stridelengtharray,jdbcType=VARCHAR},
+		stepRateArray = #{stepratearray,jdbcType=VARCHAR},
+		stepHeigh = #{stepheigh,jdbcType=VARCHAR},
+		swingWidth = #{swingwidth,jdbcType=VARCHAR},
+		stanceDuration = #{stanceduration,jdbcType=VARCHAR},
+		landingCrash = #{landingcrash,jdbcType=VARCHAR},
+		leftFile = #{leftfile,jdbcType=LONGVARCHAR},
+		rightFile = #{rightfile,jdbcType=LONGVARCHAR},
+		analysisResult = #{analysisresult,jdbcType=LONGVARCHAR},
+		trajectory = #{trajectory,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.intellingence.pojo.ShoepadData">
+		update shoePad_data
+		set userid = #{userid,jdbcType=VARCHAR},
+		resultId = #{resultid,jdbcType=INTEGER},
+		uuid = #{uuid,jdbcType=VARCHAR},
+		creationTime = #{creationtime,jdbcType=VARCHAR},
+		type = #{type,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		gender = #{gender,jdbcType=VARCHAR},
+		age = #{age,jdbcType=VARCHAR},
+		height = #{height,jdbcType=VARCHAR},
+		weight = #{weight,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		tag = #{tag,jdbcType=VARCHAR},
+		leftChecksum = #{leftchecksum,jdbcType=VARCHAR},
+		rightChecksum = #{rightchecksum,jdbcType=VARCHAR},
+		distance = #{distance,jdbcType=VARCHAR},
+		duration = #{duration,jdbcType=VARCHAR},
+		maxSpeed = #{maxspeed,jdbcType=VARCHAR},
+		averageSpeed = #{averagespeed,jdbcType=VARCHAR},
+		speedAllocationArray = #{speedallocationarray,jdbcType=VARCHAR},
+		calorie = #{calorie,jdbcType=VARCHAR},
+		strideLengthArray = #{stridelengtharray,jdbcType=VARCHAR},
+		stepRateArray = #{stepratearray,jdbcType=VARCHAR},
+		stepHeigh = #{stepheigh,jdbcType=VARCHAR},
+		swingWidth = #{swingwidth,jdbcType=VARCHAR},
+		stanceDuration = #{stanceduration,jdbcType=VARCHAR},
+		landingCrash = #{landingcrash,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectShoepadList" parameterType="com.intellingence.pojo.ShoepadData"
+		resultType="com.intellingence.pojo.ShoepadData">
+		SELECT id,distance,creationtime,duration
+		FROM shoePad_data
+		WHERE userid=#{userid} AND uuid=#{uuid}
+	</select>
+	
+	<update id="updateShoepadState" parameterType="com.intellingence.pojo.ShoepadData">
+		update shoePad_data
+		set uuid = #{uuid,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER} and userid = #{userid,jdbcType=VARCHAR}
+	</update>
+</mapper>

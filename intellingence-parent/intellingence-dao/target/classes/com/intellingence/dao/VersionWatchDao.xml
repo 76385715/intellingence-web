@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.intellingence.dao.VersionWatchDao" >
+  <resultMap id="BaseResultMap" type="com.intellingence.pojo.VersionWatch" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="versionCode" property="versioncode" jdbcType="INTEGER" />
+    <result column="versionName" property="versionname" jdbcType="VARCHAR" />
+    <result column="versionDateTime" property="versiondatetime" jdbcType="TIMESTAMP" />
+    <result column="updatdate" property="updatdate" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.intellingence.pojo.VersionWatchWithBLOBs" extends="BaseResultMap" >
+    <result column="path" property="path" jdbcType="LONGVARCHAR" />
+    <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, versionCode, versionName, versionDateTime, updatdate
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <sql id="Blob_Column_List" >
+    path, remark
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.intellingence.pojo.VersionWatchQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from version_watch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.intellingence.pojo.VersionWatchQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from version_watch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    id,versionCode,versionName,versionDateTime,updatdate,path,remark
+    ,
+    <include refid="Blob_Column_List" />
+    from version_watch
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from version_watch
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.intellingence.pojo.VersionWatchQuery" >
+    delete from version_watch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.intellingence.pojo.VersionWatchWithBLOBs" >
+    insert into version_watch (id, versionCode, versionName, 
+      versionDateTime, updatdate, path, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{versioncode,jdbcType=INTEGER}, #{versionname,jdbcType=VARCHAR}, 
+      #{versiondatetime,jdbcType=TIMESTAMP}, #{updatdate,jdbcType=DATE}, #{path,jdbcType=LONGVARCHAR}, 
+      #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.intellingence.pojo.VersionWatchWithBLOBs" >
+    insert into version_watch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="versioncode != null" >
+        versionCode,
+      </if>
+      <if test="versionname != null" >
+        versionName,
+      </if>
+      <if test="versiondatetime != null" >
+        versionDateTime,
+      </if>
+      <if test="updatdate != null" >
+        updatdate,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="versioncode != null" >
+        #{versioncode,jdbcType=INTEGER},
+      </if>
+      <if test="versionname != null" >
+        #{versionname,jdbcType=VARCHAR},
+      </if>
+      <if test="versiondatetime != null" >
+        #{versiondatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatdate != null" >
+        #{updatdate,jdbcType=DATE},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.intellingence.pojo.VersionWatchQuery" resultType="java.lang.Integer" >
+    select count(*) from version_watch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update version_watch
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.versioncode != null" >
+        versionCode = #{record.versioncode,jdbcType=INTEGER},
+      </if>
+      <if test="record.versionname != null" >
+        versionName = #{record.versionname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.versiondatetime != null" >
+        versionDateTime = #{record.versiondatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatdate != null" >
+        updatdate = #{record.updatdate,jdbcType=DATE},
+      </if>
+      <if test="record.path != null" >
+        path = #{record.path,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update version_watch
+    set id = #{record.id,jdbcType=INTEGER},
+      versionCode = #{record.versioncode,jdbcType=INTEGER},
+      versionName = #{record.versionname,jdbcType=VARCHAR},
+      versionDateTime = #{record.versiondatetime,jdbcType=TIMESTAMP},
+      updatdate = #{record.updatdate,jdbcType=DATE},
+      path = #{record.path,jdbcType=LONGVARCHAR},
+      remark = #{record.remark,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update version_watch
+    set id = #{record.id,jdbcType=INTEGER},
+      versionCode = #{record.versioncode,jdbcType=INTEGER},
+      versionName = #{record.versionname,jdbcType=VARCHAR},
+      versionDateTime = #{record.versiondatetime,jdbcType=TIMESTAMP},
+      updatdate = #{record.updatdate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.intellingence.pojo.VersionWatchWithBLOBs" >
+    update version_watch
+    <set >
+      <if test="versioncode != null" >
+        versionCode = #{versioncode,jdbcType=INTEGER},
+      </if>
+      <if test="versionname != null" >
+        versionName = #{versionname,jdbcType=VARCHAR},
+      </if>
+      <if test="versiondatetime != null" >
+        versionDateTime = #{versiondatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatdate != null" >
+        updatdate = #{updatdate,jdbcType=DATE},
+      </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.intellingence.pojo.VersionWatchWithBLOBs" >
+    update version_watch
+    set versionCode = #{versioncode,jdbcType=INTEGER},
+      versionName = #{versionname,jdbcType=VARCHAR},
+      versionDateTime = #{versiondatetime,jdbcType=TIMESTAMP},
+      updatdate = #{updatdate,jdbcType=DATE},
+      path = #{path,jdbcType=LONGVARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.intellingence.pojo.VersionWatch" >
+    update version_watch
+    set versionCode = #{versioncode,jdbcType=INTEGER},
+      versionName = #{versionname,jdbcType=VARCHAR},
+      versionDateTime = #{versiondatetime,jdbcType=TIMESTAMP},
+      updatdate = #{updatdate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <!-- 获得最新的版本讯息 -->
+	<select id="selectLastVersion" resultMap="ResultMapWithBLOBs">
+		SELECT * FROM version_watch
+		ORDER BY versionCode DESC
+		LIMIT 1;
+	</select>
+  
+</mapper>

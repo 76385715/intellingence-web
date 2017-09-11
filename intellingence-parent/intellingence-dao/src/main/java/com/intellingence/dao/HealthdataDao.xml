@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.intellingence.dao.HealthdataDao">
+	<resultMap id="BaseResultMap" type="com.intellingence.pojo.Healthdata">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="userID" property="userid" jdbcType="INTEGER" />
+		<result column="FI" property="fi" jdbcType="INTEGER" />
+		<result column="ES" property="es" jdbcType="INTEGER" />
+		<result column="PI" property="pi" jdbcType="INTEGER" />
+		<result column="CC" property="cc" jdbcType="INTEGER" />
+		<result column="HRVr" property="hrvr" jdbcType="VARCHAR" />
+		<result column="AHR" property="ahr" jdbcType="INTEGER" />
+		<result column="MaxHR" property="maxhr" jdbcType="INTEGER" />
+		<result column="MinHR" property="minhr" jdbcType="INTEGER" />
+		<result column="HRr" property="hrr" jdbcType="VARCHAR" />
+		<result column="ECr" property="ecr" jdbcType="INTEGER" />
+		<result column="RA" property="ra" jdbcType="INTEGER" />
+		<result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="timestamp" property="timestamp" jdbcType="BIGINT" />
+		<result column="datatime" property="datatime" jdbcType="TIMESTAMP" />
+		<result column="year" property="year" jdbcType="INTEGER" />
+		<result column="quarter" property="quarter" jdbcType="INTEGER" />
+		<result column="month" property="month" jdbcType="INTEGER" />
+		<result column="week" property="week" jdbcType="INTEGER" />
+		<result column="date" property="date" jdbcType="INTEGER" />
+		<result column="distance" property="distance" jdbcType="REAL" />
+		<result column="time" property="time" jdbcType="REAL" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="HRsum" property="hrsum" jdbcType="INTEGER" />
+		<result column="HRtimes" property="hrtimes" jdbcType="INTEGER" />
+		<result column="zaobo" property="zaobo" jdbcType="INTEGER" />
+		<result column="loubo" property="loubo" jdbcType="INTEGER" />
+		<result column="aliveness" property="aliveness" jdbcType="INTEGER" />
+		<result column="inuse" property="inuse" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.intellingence.pojo.HealthdataWithBLOBs"
+		extends="BaseResultMap">
+		<result column="HRVs" property="hrvs" jdbcType="LONGVARCHAR" />
+		<result column="HRs" property="hrs" jdbcType="LONGVARCHAR" />
+		<result column="EC" property="ec" jdbcType="LONGVARCHAR" />
+		<result column="ECs" property="ecs" jdbcType="LONGVARCHAR" />
+		<result column="HR" property="hr" jdbcType="LONGVARCHAR" />
+		<result column="AE" property="ae" jdbcType="LONGVARCHAR" />
+		<result column="cadence" property="cadence" jdbcType="LONGVARCHAR" />
+		<result column="latitude_longitude" property="latitudeLongitude"
+			jdbcType="LONGVARCHAR" />
+		<result column="calorie" property="calorie" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		<if test="fields == null">
+			ID, userID, FI, ES, PI, CC, HRVr, AHR, MaxHR, MinHR, HRr,
+			ECr, RA,
+			updatetime, timestamp,
+			datatime, year, quarter, month, week,
+			date, distance, time, state, HRsum,
+			HRtimes,
+			zaobo, loubo, aliveness,
+			inuse
+		</if>
+		<if test="fields != null">
+			${fields}
+		</if>
+	</sql>
+	<sql id="Blob_Column_List">
+		HRVs, HRs, EC, ECs, HR, AE, cadence, latitude_longitude,
+		calorie
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.intellingence.pojo.HealthdataQuery">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from healthdata
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.intellingence.pojo.HealthdataQuery">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from healthdata
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="startRow != null">
+			limit #{startRow} , #{pageSize}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		ID,userID,FI,ES,PI,CC,HRVr,AHR,MaxHR,MinHR,HRr,ECr,RA,updatetime,timestamp,datatime,year,quarter,month,week,date,distance,time,state,HRsum,HRtimes,zaobo,loubo,aliveness,inuse,HRVs,HRs,EC,ECs,HR,AE,cadence,latitude_longitude,calorie
+		,
+		<include refid="Blob_Column_List" />
+		from healthdata
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		healthdata
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.intellingence.pojo.HealthdataQuery">
+		delete from healthdata
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.intellingence.pojo.HealthdataWithBLOBs">
+		insert into healthdata (ID,
+		userID, FI,
+		ES, PI, CC, HRVr,
+		AHR, MaxHR, MinHR,
+		HRr, ECr, RA,
+		updatetime,
+		timestamp, datatime, year,
+		quarter, month, week,
+		date,
+		distance, time, state,
+		HRsum, HRtimes, zaobo,
+		loubo, aliveness, inuse,
+		HRVs, HRs, EC,
+		ECs, HR, AE,
+		cadence, latitude_longitude, calorie
+		)
+		values
+		(#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER},
+		#{fi,jdbcType=INTEGER},
+		#{es,jdbcType=INTEGER}, #{pi,jdbcType=INTEGER},
+		#{cc,jdbcType=INTEGER},
+		#{hrvr,jdbcType=VARCHAR},
+		#{ahr,jdbcType=INTEGER}, #{maxhr,jdbcType=INTEGER},
+		#{minhr,jdbcType=INTEGER},
+		#{hrr,jdbcType=VARCHAR},
+		#{ecr,jdbcType=INTEGER},
+		#{ra,jdbcType=INTEGER},
+		#{updatetime,jdbcType=TIMESTAMP},
+		#{timestamp,jdbcType=BIGINT},
+		#{datatime,jdbcType=TIMESTAMP},
+		#{year,jdbcType=INTEGER},
+		#{quarter,jdbcType=INTEGER}, #{month,jdbcType=INTEGER},
+		#{week,jdbcType=INTEGER},
+		#{date,jdbcType=INTEGER},
+		#{distance,jdbcType=REAL},
+		#{time,jdbcType=REAL},
+		#{state,jdbcType=INTEGER},
+		#{hrsum,jdbcType=INTEGER},
+		#{hrtimes,jdbcType=INTEGER},
+		#{zaobo,jdbcType=INTEGER},
+		#{loubo,jdbcType=INTEGER}, #{aliveness,jdbcType=INTEGER},
+		#{inuse,jdbcType=INTEGER},
+		#{hrvs,jdbcType=LONGVARCHAR},
+		#{hrs,jdbcType=LONGVARCHAR},
+		#{ec,jdbcType=LONGVARCHAR},
+		#{ecs,jdbcType=LONGVARCHAR}, #{hr,jdbcType=LONGVARCHAR},
+		#{ae,jdbcType=LONGVARCHAR},
+		#{cadence,jdbcType=LONGVARCHAR},
+		#{latitudeLongitude,jdbcType=LONGVARCHAR},
+		#{calorie,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.intellingence.pojo.HealthdataWithBLOBs">
+		insert into healthdata
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="userid != null">
+				userID,
+			</if>
+			<if test="fi != null">
+				FI,
+			</if>
+			<if test="es != null">
+				ES,
+			</if>
+			<if test="pi != null">
+				PI,
+			</if>
+			<if test="cc != null">
+				CC,
+			</if>
+			<if test="hrvr != null">
+				HRVr,
+			</if>
+			<if test="ahr != null">
+				AHR,
+			</if>
+			<if test="maxhr != null">
+				MaxHR,
+			</if>
+			<if test="minhr != null">
+				MinHR,
+			</if>
+			<if test="hrr != null">
+				HRr,
+			</if>
+			<if test="ecr != null">
+				ECr,
+			</if>
+			<if test="ra != null">
+				RA,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="timestamp != null">
+				timestamp,
+			</if>
+			<if test="datatime != null">
+				datatime,
+			</if>
+			<if test="year != null">
+				year,
+			</if>
+			<if test="quarter != null">
+				quarter,
+			</if>
+			<if test="month != null">
+				month,
+			</if>
+			<if test="week != null">
+				week,
+			</if>
+			<if test="date != null">
+				date,
+			</if>
+			<if test="distance != null">
+				distance,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="hrsum != null">
+				HRsum,
+			</if>
+			<if test="hrtimes != null">
+				HRtimes,
+			</if>
+			<if test="zaobo != null">
+				zaobo,
+			</if>
+			<if test="loubo != null">
+				loubo,
+			</if>
+			<if test="aliveness != null">
+				aliveness,
+			</if>
+			<if test="inuse != null">
+				inuse,
+			</if>
+			<if test="hrvs != null">
+				HRVs,
+			</if>
+			<if test="hrs != null">
+				HRs,
+			</if>
+			<if test="ec != null">
+				EC,
+			</if>
+			<if test="ecs != null">
+				ECs,
+			</if>
+			<if test="hr != null">
+				HR,
+			</if>
+			<if test="ae != null">
+				AE,
+			</if>
+			<if test="cadence != null">
+				cadence,
+			</if>
+			<if test="latitudeLongitude != null">
+				latitude_longitude,
+			</if>
+			<if test="calorie != null">
+				calorie,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="fi != null">
+				#{fi,jdbcType=INTEGER},
+			</if>
+			<if test="es != null">
+				#{es,jdbcType=INTEGER},
+			</if>
+			<if test="pi != null">
+				#{pi,jdbcType=INTEGER},
+			</if>
+			<if test="cc != null">
+				#{cc,jdbcType=INTEGER},
+			</if>
+			<if test="hrvr != null">
+				#{hrvr,jdbcType=VARCHAR},
+			</if>
+			<if test="ahr != null">
+				#{ahr,jdbcType=INTEGER},
+			</if>
+			<if test="maxhr != null">
+				#{maxhr,jdbcType=INTEGER},
+			</if>
+			<if test="minhr != null">
+				#{minhr,jdbcType=INTEGER},
+			</if>
+			<if test="hrr != null">
+				#{hrr,jdbcType=VARCHAR},
+			</if>
+			<if test="ecr != null">
+				#{ecr,jdbcType=INTEGER},
+			</if>
+			<if test="ra != null">
+				#{ra,jdbcType=INTEGER},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="timestamp != null">
+				#{timestamp,jdbcType=BIGINT},
+			</if>
+			<if test="datatime != null">
+				#{datatime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="year != null">
+				#{year,jdbcType=INTEGER},
+			</if>
+			<if test="quarter != null">
+				#{quarter,jdbcType=INTEGER},
+			</if>
+			<if test="month != null">
+				#{month,jdbcType=INTEGER},
+			</if>
+			<if test="week != null">
+				#{week,jdbcType=INTEGER},
+			</if>
+			<if test="date != null">
+				#{date,jdbcType=INTEGER},
+			</if>
+			<if test="distance != null">
+				#{distance,jdbcType=REAL},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=REAL},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="hrsum != null">
+				#{hrsum,jdbcType=INTEGER},
+			</if>
+			<if test="hrtimes != null">
+				#{hrtimes,jdbcType=INTEGER},
+			</if>
+			<if test="zaobo != null">
+				#{zaobo,jdbcType=INTEGER},
+			</if>
+			<if test="loubo != null">
+				#{loubo,jdbcType=INTEGER},
+			</if>
+			<if test="aliveness != null">
+				#{aliveness,jdbcType=INTEGER},
+			</if>
+			<if test="inuse != null">
+				#{inuse,jdbcType=INTEGER},
+			</if>
+			<if test="hrvs != null">
+				#{hrvs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="hrs != null">
+				#{hrs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="ec != null">
+				#{ec,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="ecs != null">
+				#{ecs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="hr != null">
+				#{hr,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="ae != null">
+				#{ae,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="cadence != null">
+				#{cadence,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="latitudeLongitude != null">
+				#{latitudeLongitude,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="calorie != null">
+				#{calorie,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.intellingence.pojo.HealthdataQuery"
+		resultType="java.lang.Integer">
+		select count(*) from healthdata
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update healthdata
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				userID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.fi != null">
+				FI = #{record.fi,jdbcType=INTEGER},
+			</if>
+			<if test="record.es != null">
+				ES = #{record.es,jdbcType=INTEGER},
+			</if>
+			<if test="record.pi != null">
+				PI = #{record.pi,jdbcType=INTEGER},
+			</if>
+			<if test="record.cc != null">
+				CC = #{record.cc,jdbcType=INTEGER},
+			</if>
+			<if test="record.hrvr != null">
+				HRVr = #{record.hrvr,jdbcType=VARCHAR},
+			</if>
+			<if test="record.ahr != null">
+				AHR = #{record.ahr,jdbcType=INTEGER},
+			</if>
+			<if test="record.maxhr != null">
+				MaxHR = #{record.maxhr,jdbcType=INTEGER},
+			</if>
+			<if test="record.minhr != null">
+				MinHR = #{record.minhr,jdbcType=INTEGER},
+			</if>
+			<if test="record.hrr != null">
+				HRr = #{record.hrr,jdbcType=VARCHAR},
+			</if>
+			<if test="record.ecr != null">
+				ECr = #{record.ecr,jdbcType=INTEGER},
+			</if>
+			<if test="record.ra != null">
+				RA = #{record.ra,jdbcType=INTEGER},
+			</if>
+			<if test="record.updatetime != null">
+				updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.timestamp != null">
+				timestamp = #{record.timestamp,jdbcType=BIGINT},
+			</if>
+			<if test="record.datatime != null">
+				datatime = #{record.datatime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.year != null">
+				year = #{record.year,jdbcType=INTEGER},
+			</if>
+			<if test="record.quarter != null">
+				quarter = #{record.quarter,jdbcType=INTEGER},
+			</if>
+			<if test="record.month != null">
+				month = #{record.month,jdbcType=INTEGER},
+			</if>
+			<if test="record.week != null">
+				week = #{record.week,jdbcType=INTEGER},
+			</if>
+			<if test="record.date != null">
+				date = #{record.date,jdbcType=INTEGER},
+			</if>
+			<if test="record.distance != null">
+				distance = #{record.distance,jdbcType=REAL},
+			</if>
+			<if test="record.time != null">
+				time = #{record.time,jdbcType=REAL},
+			</if>
+			<if test="record.state != null">
+				state = #{record.state,jdbcType=INTEGER},
+			</if>
+			<if test="record.hrsum != null">
+				HRsum = #{record.hrsum,jdbcType=INTEGER},
+			</if>
+			<if test="record.hrtimes != null">
+				HRtimes = #{record.hrtimes,jdbcType=INTEGER},
+			</if>
+			<if test="record.zaobo != null">
+				zaobo = #{record.zaobo,jdbcType=INTEGER},
+			</if>
+			<if test="record.loubo != null">
+				loubo = #{record.loubo,jdbcType=INTEGER},
+			</if>
+			<if test="record.aliveness != null">
+				aliveness = #{record.aliveness,jdbcType=INTEGER},
+			</if>
+			<if test="record.inuse != null">
+				inuse = #{record.inuse,jdbcType=INTEGER},
+			</if>
+			<if test="record.hrvs != null">
+				HRVs = #{record.hrvs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.hrs != null">
+				HRs = #{record.hrs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.ec != null">
+				EC = #{record.ec,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.ecs != null">
+				ECs = #{record.ecs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.hr != null">
+				HR = #{record.hr,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.ae != null">
+				AE = #{record.ae,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.cadence != null">
+				cadence = #{record.cadence,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.latitudeLongitude != null">
+				latitude_longitude =
+				#{record.latitudeLongitude,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.calorie != null">
+				calorie = #{record.calorie,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update healthdata
+		set ID = #{record.id,jdbcType=INTEGER},
+		userID =
+		#{record.userid,jdbcType=INTEGER},
+		FI = #{record.fi,jdbcType=INTEGER},
+		ES = #{record.es,jdbcType=INTEGER},
+		PI = #{record.pi,jdbcType=INTEGER},
+		CC = #{record.cc,jdbcType=INTEGER},
+		HRVr =
+		#{record.hrvr,jdbcType=VARCHAR},
+		AHR = #{record.ahr,jdbcType=INTEGER},
+		MaxHR = #{record.maxhr,jdbcType=INTEGER},
+		MinHR =
+		#{record.minhr,jdbcType=INTEGER},
+		HRr = #{record.hrr,jdbcType=VARCHAR},
+		ECr = #{record.ecr,jdbcType=INTEGER},
+		RA =
+		#{record.ra,jdbcType=INTEGER},
+		updatetime =
+		#{record.updatetime,jdbcType=TIMESTAMP},
+		timestamp =
+		#{record.timestamp,jdbcType=BIGINT},
+		datatime =
+		#{record.datatime,jdbcType=TIMESTAMP},
+		year =
+		#{record.year,jdbcType=INTEGER},
+		quarter =
+		#{record.quarter,jdbcType=INTEGER},
+		month =
+		#{record.month,jdbcType=INTEGER},
+		week =
+		#{record.week,jdbcType=INTEGER},
+		date =
+		#{record.date,jdbcType=INTEGER},
+		distance =
+		#{record.distance,jdbcType=REAL},
+		time = #{record.time,jdbcType=REAL},
+		state = #{record.state,jdbcType=INTEGER},
+		HRsum =
+		#{record.hrsum,jdbcType=INTEGER},
+		HRtimes =
+		#{record.hrtimes,jdbcType=INTEGER},
+		zaobo =
+		#{record.zaobo,jdbcType=INTEGER},
+		loubo =
+		#{record.loubo,jdbcType=INTEGER},
+		aliveness =
+		#{record.aliveness,jdbcType=INTEGER},
+		inuse =
+		#{record.inuse,jdbcType=INTEGER},
+		HRVs =
+		#{record.hrvs,jdbcType=LONGVARCHAR},
+		HRs =
+		#{record.hrs,jdbcType=LONGVARCHAR},
+		EC =
+		#{record.ec,jdbcType=LONGVARCHAR},
+		ECs =
+		#{record.ecs,jdbcType=LONGVARCHAR},
+		HR =
+		#{record.hr,jdbcType=LONGVARCHAR},
+		AE =
+		#{record.ae,jdbcType=LONGVARCHAR},
+		cadence =
+		#{record.cadence,jdbcType=LONGVARCHAR},
+		latitude_longitude =
+		#{record.latitudeLongitude,jdbcType=LONGVARCHAR},
+		calorie =
+		#{record.calorie,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update healthdata
+		set ID = #{record.id,jdbcType=INTEGER},
+		userID =
+		#{record.userid,jdbcType=INTEGER},
+		FI = #{record.fi,jdbcType=INTEGER},
+		ES = #{record.es,jdbcType=INTEGER},
+		PI = #{record.pi,jdbcType=INTEGER},
+		CC = #{record.cc,jdbcType=INTEGER},
+		HRVr =
+		#{record.hrvr,jdbcType=VARCHAR},
+		AHR = #{record.ahr,jdbcType=INTEGER},
+		MaxHR = #{record.maxhr,jdbcType=INTEGER},
+		MinHR =
+		#{record.minhr,jdbcType=INTEGER},
+		HRr = #{record.hrr,jdbcType=VARCHAR},
+		ECr = #{record.ecr,jdbcType=INTEGER},
+		RA =
+		#{record.ra,jdbcType=INTEGER},
+		updatetime =
+		#{record.updatetime,jdbcType=TIMESTAMP},
+		timestamp =
+		#{record.timestamp,jdbcType=BIGINT},
+		datatime =
+		#{record.datatime,jdbcType=TIMESTAMP},
+		year =
+		#{record.year,jdbcType=INTEGER},
+		quarter =
+		#{record.quarter,jdbcType=INTEGER},
+		month =
+		#{record.month,jdbcType=INTEGER},
+		week =
+		#{record.week,jdbcType=INTEGER},
+		date =
+		#{record.date,jdbcType=INTEGER},
+		distance =
+		#{record.distance,jdbcType=REAL},
+		time = #{record.time,jdbcType=REAL},
+		state = #{record.state,jdbcType=INTEGER},
+		HRsum =
+		#{record.hrsum,jdbcType=INTEGER},
+		HRtimes =
+		#{record.hrtimes,jdbcType=INTEGER},
+		zaobo =
+		#{record.zaobo,jdbcType=INTEGER},
+		loubo =
+		#{record.loubo,jdbcType=INTEGER},
+		aliveness =
+		#{record.aliveness,jdbcType=INTEGER},
+		inuse =
+		#{record.inuse,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.intellingence.pojo.HealthdataWithBLOBs">
+		update healthdata
+		<set>
+			<if test="userid != null">
+				userID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="fi != null">
+				FI = #{fi,jdbcType=INTEGER},
+			</if>
+			<if test="es != null">
+				ES = #{es,jdbcType=INTEGER},
+			</if>
+			<if test="pi != null">
+				PI = #{pi,jdbcType=INTEGER},
+			</if>
+			<if test="cc != null">
+				CC = #{cc,jdbcType=INTEGER},
+			</if>
+			<if test="hrvr != null">
+				HRVr = #{hrvr,jdbcType=VARCHAR},
+			</if>
+			<if test="ahr != null">
+				AHR = #{ahr,jdbcType=INTEGER},
+			</if>
+			<if test="maxhr != null">
+				MaxHR = #{maxhr,jdbcType=INTEGER},
+			</if>
+			<if test="minhr != null">
+				MinHR = #{minhr,jdbcType=INTEGER},
+			</if>
+			<if test="hrr != null">
+				HRr = #{hrr,jdbcType=VARCHAR},
+			</if>
+			<if test="ecr != null">
+				ECr = #{ecr,jdbcType=INTEGER},
+			</if>
+			<if test="ra != null">
+				RA = #{ra,jdbcType=INTEGER},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="timestamp != null">
+				timestamp = #{timestamp,jdbcType=BIGINT},
+			</if>
+			<if test="datatime != null">
+				datatime = #{datatime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="year != null">
+				year = #{year,jdbcType=INTEGER},
+			</if>
+			<if test="quarter != null">
+				quarter = #{quarter,jdbcType=INTEGER},
+			</if>
+			<if test="month != null">
+				month = #{month,jdbcType=INTEGER},
+			</if>
+			<if test="week != null">
+				week = #{week,jdbcType=INTEGER},
+			</if>
+			<if test="date != null">
+				date = #{date,jdbcType=INTEGER},
+			</if>
+			<if test="distance != null">
+				distance = #{distance,jdbcType=REAL},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=REAL},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="hrsum != null">
+				HRsum = #{hrsum,jdbcType=INTEGER},
+			</if>
+			<if test="hrtimes != null">
+				HRtimes = #{hrtimes,jdbcType=INTEGER},
+			</if>
+			<if test="zaobo != null">
+				zaobo = #{zaobo,jdbcType=INTEGER},
+			</if>
+			<if test="loubo != null">
+				loubo = #{loubo,jdbcType=INTEGER},
+			</if>
+			<if test="aliveness != null">
+				aliveness = #{aliveness,jdbcType=INTEGER},
+			</if>
+			<if test="inuse != null">
+				inuse = #{inuse,jdbcType=INTEGER},
+			</if>
+			<if test="hrvs != null">
+				HRVs = #{hrvs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="hrs != null">
+				HRs = #{hrs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="ec != null">
+				EC = #{ec,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="ecs != null">
+				ECs = #{ecs,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="hr != null">
+				HR = #{hr,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="ae != null">
+				AE = #{ae,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="cadence != null">
+				cadence = #{cadence,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="latitudeLongitude != null">
+				latitude_longitude =
+				#{latitudeLongitude,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="calorie != null">
+				calorie = #{calorie,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.intellingence.pojo.HealthdataWithBLOBs">
+		update
+		healthdata
+		set userID = #{userid,jdbcType=INTEGER},
+		FI =
+		#{fi,jdbcType=INTEGER},
+		ES = #{es,jdbcType=INTEGER},
+		PI =
+		#{pi,jdbcType=INTEGER},
+		CC = #{cc,jdbcType=INTEGER},
+		HRVr =
+		#{hrvr,jdbcType=VARCHAR},
+		AHR = #{ahr,jdbcType=INTEGER},
+		MaxHR =
+		#{maxhr,jdbcType=INTEGER},
+		MinHR = #{minhr,jdbcType=INTEGER},
+		HRr =
+		#{hrr,jdbcType=VARCHAR},
+		ECr = #{ecr,jdbcType=INTEGER},
+		RA =
+		#{ra,jdbcType=INTEGER},
+		updatetime = #{updatetime,jdbcType=TIMESTAMP},
+		timestamp = #{timestamp,jdbcType=BIGINT},
+		datatime =
+		#{datatime,jdbcType=TIMESTAMP},
+		year = #{year,jdbcType=INTEGER},
+		quarter = #{quarter,jdbcType=INTEGER},
+		month =
+		#{month,jdbcType=INTEGER},
+		week = #{week,jdbcType=INTEGER},
+		date =
+		#{date,jdbcType=INTEGER},
+		distance = #{distance,jdbcType=REAL},
+		time =
+		#{time,jdbcType=REAL},
+		state = #{state,jdbcType=INTEGER},
+		HRsum =
+		#{hrsum,jdbcType=INTEGER},
+		HRtimes = #{hrtimes,jdbcType=INTEGER},
+		zaobo
+		= #{zaobo,jdbcType=INTEGER},
+		loubo = #{loubo,jdbcType=INTEGER},
+		aliveness = #{aliveness,jdbcType=INTEGER},
+		inuse =
+		#{inuse,jdbcType=INTEGER},
+		HRVs = #{hrvs,jdbcType=LONGVARCHAR},
+		HRs =
+		#{hrs,jdbcType=LONGVARCHAR},
+		EC = #{ec,jdbcType=LONGVARCHAR},
+		ECs =
+		#{ecs,jdbcType=LONGVARCHAR},
+		HR = #{hr,jdbcType=LONGVARCHAR},
+		AE =
+		#{ae,jdbcType=LONGVARCHAR},
+		cadence = #{cadence,jdbcType=LONGVARCHAR},
+		latitude_longitude = #{latitudeLongitude,jdbcType=LONGVARCHAR},
+		calorie = #{calorie,jdbcType=LONGVARCHAR}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.intellingence.pojo.Healthdata">
+		update healthdata
+		set userID = #{userid,jdbcType=INTEGER},
+		FI = #{fi,jdbcType=INTEGER},
+		ES = #{es,jdbcType=INTEGER},
+		PI = #{pi,jdbcType=INTEGER},
+		CC =
+		#{cc,jdbcType=INTEGER},
+		HRVr = #{hrvr,jdbcType=VARCHAR},
+		AHR =
+		#{ahr,jdbcType=INTEGER},
+		MaxHR = #{maxhr,jdbcType=INTEGER},
+		MinHR =
+		#{minhr,jdbcType=INTEGER},
+		HRr = #{hrr,jdbcType=VARCHAR},
+		ECr =
+		#{ecr,jdbcType=INTEGER},
+		RA = #{ra,jdbcType=INTEGER},
+		updatetime =
+		#{updatetime,jdbcType=TIMESTAMP},
+		timestamp =
+		#{timestamp,jdbcType=BIGINT},
+		datatime =
+		#{datatime,jdbcType=TIMESTAMP},
+		year = #{year,jdbcType=INTEGER},
+		quarter = #{quarter,jdbcType=INTEGER},
+		month =
+		#{month,jdbcType=INTEGER},
+		week = #{week,jdbcType=INTEGER},
+		date =
+		#{date,jdbcType=INTEGER},
+		distance = #{distance,jdbcType=REAL},
+		time =
+		#{time,jdbcType=REAL},
+		state = #{state,jdbcType=INTEGER},
+		HRsum =
+		#{hrsum,jdbcType=INTEGER},
+		HRtimes = #{hrtimes,jdbcType=INTEGER},
+		zaobo
+		= #{zaobo,jdbcType=INTEGER},
+		loubo = #{loubo,jdbcType=INTEGER},
+		aliveness = #{aliveness,jdbcType=INTEGER},
+		inuse =
+		#{inuse,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 按年月查询 -->
+	<!-- HRrep数据 -->
+	<select id="selectHRrepHealthDataByParameter" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,AHR FROM healthdata
+		WHERE year=#{year}
+		AND month=#{month} AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- 心电数据总数 -->
+	<select id="selectCountHealthDataByParameter" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		month=#{month} AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- 正常心电数据 -->
+	<select id="selectCountNormalHealthDataByParameter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND month=#{month}
+		AND userID=#{userid} AND ECr=1 AND aliveness=#{aliveness};
+	</select>
+	<!-- 异常心电数据 -->
+	<select id="selectCountAbnormalHealthDataByParameter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND month=#{month}
+		AND userID=#{userid} AND ECr=2 AND aliveness=#{aliveness};
+	</select>
+	<!-- 漏搏心电数据 -->
+	<select id="selectCountLouboHealthDataByParameter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND month=#{month}
+		AND userID=#{userid} AND ECr=3 AND aliveness=#{aliveness};
+	</select>
+	<!-- 早搏心电数据 -->
+	<select id="selectCountZaoboHealthDataByParameter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND month=#{month}
+		AND userID=#{userid} AND ECr=4 AND aliveness=#{aliveness};
+	</select>
+	<!-- HRRrep数据 -->
+	<select id="selectHRRrepHealthDataByParameter" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,RA FROM healthdata
+		WHERE year=#{year} AND
+		month=#{month} AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- HRVrep数据 -->
+	<select id="selectHRVrepHealthDataByParameter" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,FI FROM healthdata
+		WHERE year=#{year} AND
+		month=#{month} AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+
+	<!-- 按年季度查询 -->
+	<!-- HRrep数据 -->
+	<select id="selectHRrepHealthDataByParameterQuarter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,AHR FROM healthdata
+		WHERE year=#{year} AND
+		quarter=#{quarter} AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- 心电数据总数 -->
+	<select id="selectCountHealthDataByParameterQuarter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		quarter=#{quarter} AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- 正常心电数据 -->
+	<select id="selectCountNormalHealthDataByParameterQuarter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		quarter=#{quarter} AND userID=#{userid} AND ECr=1 AND
+		aliveness=#{aliveness};
+	</select>
+	<!-- 异常心电数据 -->
+	<select id="selectCountAbnormalHealthDataByParameterQuarter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		quarter=#{quarter} AND userID=#{userid} AND ECr=2 AND
+		aliveness=#{aliveness};
+	</select>
+	<!-- 漏搏心电数据 -->
+	<select id="selectCountLouboHealthDataByParameterQuarter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		quarter=#{quarter} AND userID=#{userid} AND ECr=3 AND
+		aliveness=#{aliveness};
+	</select>
+	<!-- 早搏心电数据 -->
+	<select id="selectCountZaoboHealthDataByParameterQuarter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		quarter=#{quarter} AND userID=#{userid} AND ECr=4 AND
+		aliveness=#{aliveness};
+	</select>
+	<!-- HRRrep数据 -->
+	<select id="selectHRRrepHealthDataByParameterQuarter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,RA FROM healthdata
+		WHERE year=#{year} AND
+		quarter=#{quarter} AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- HRVrep数据 -->
+	<select id="selectHRVrepHealthDataByParameterQuarter"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,FI FROM healthdata
+		WHERE year=#{year} AND
+		quarter=#{quarter} AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+
+	<!-- 按年度查询 -->
+	<!-- HRrep数据 -->
+	<select id="selectHRrepHealthDataByParameterYear" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,AHR FROM healthdata
+		WHERE year=#{year}
+		AND userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- 心电数据总数 -->
+	<select id="selectCountHealthDataByParameterYear" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- 正常心电数据 -->
+	<select id="selectCountNormalHealthDataByParameterYear"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		userID=#{userid} AND ECr=1 AND aliveness=#{aliveness};
+	</select>
+	<!-- 异常心电数据 -->
+	<select id="selectCountAbnormalHealthDataByParameterYear"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		userID=#{userid} AND ECr=2 AND aliveness=#{aliveness};
+	</select>
+	<!-- 漏搏心电数据 -->
+	<select id="selectCountLouboHealthDataByParameterYear"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		userID=#{userid} AND ECr=3 AND aliveness=#{aliveness};
+	</select>
+	<!-- 早搏心电数据 -->
+	<select id="selectCountZaoboHealthDataByParameterYear"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="int">
+		SELECT count(ECr) FROM healthdata
+		WHERE year=#{year} AND
+		userID=#{userid} AND ECr=4 AND aliveness=#{aliveness};
+	</select>
+	<!-- HRRrep数据 -->
+	<select id="selectHRRrepHealthDataByParameterYear"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,RA FROM healthdata
+		WHERE year=#{year} AND
+		userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- HRVrep数据 -->
+	<select id="selectHRVrepHealthDataByParameterYear"
+		parameterType="com.intellingence.pojo.HealthDataQueryVo" resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,datatime,FI FROM healthdata
+		WHERE year=#{year} AND
+		userID=#{userid} AND aliveness=#{aliveness};
+	</select>
+	<!-- 查询健康数据总记录数 -->
+	<select id="selectTotalCountByUserId" parameterType="int"
+		resultType="int">
+		SELECT count(*) FROM healthdata
+		WHERE userID=#{userid} AND
+		aliveness=#{aliveness};
+	</select>
+
+	<!-- 分页查询健康记录 -->
+	<select id="selectHealthDataByPage" parameterType="com.intellingence.pojo.HealthdataQueryAndUserId"
+		resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT id,datatime,state,distance FROM healthdata
+		WHERE
+		userID=#{userId} AND aliveness=#{aliveness}
+		ORDER BY datatime DESC
+		LIMIT #{startRow},#{pageSize};
+	</select>
+
+	<update id="updateAlivenessById" parameterType="int">
+		UPDATE healthdata
+		SET aliveness = 0
+		WHERE id=#{value}
+	</update>
+
+	<!-- 一周内运动时间之和 -->
+	<select id="selectSportTimesByWeek" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="int">
+		SELECT COALESCE(sum(time),0)
+		FROM healthdata
+		WHERE
+		userID=#{userid} AND aliveness=#{aliveness} AND week=#{week} AND
+		year=#{year};
+	</select>
+
+	<!-- 一周内早搏次数,漏搏次数之和 -->
+	<select id="selectZaoBoLouBoTimesByWeek" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="com.intellingence.entry.ZaoboLouboTimes">
+		SELECT COALESCE(sum(zaobo),0) AS
+		zaoboTimes,COALESCE(sum(loubo),0) AS louboTimes
+		FROM healthdata
+		WHERE
+		userID=#{userid} AND aliveness=#{aliveness} AND week=#{week} AND
+		year=#{year};
+	</select>
+
+	<!-- 一周内所有的平均心率数组 -->
+	<select id="selectAHRByWeek" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="int">
+		SELECT AHR
+		FROM healthdata
+		WHERE
+		userID=#{userid} AND
+		aliveness=#{aliveness} AND week=#{week} AND year=#{year};
+	</select>
+
+	<!-- 一周内所有的疲劳指数数组 -->
+	<select id="selectFIByWeek" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="int">
+		SELECT FI
+		FROM healthdata
+		WHERE
+		userID=#{userid} AND
+		aliveness=#{aliveness} AND week=#{week} AND year=#{year};
+	</select>
+
+	<!-- 一周内所有的恢复心率数组 -->
+	<select id="selectRAByWeek" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="int">
+		SELECT RA
+		FROM healthdata
+		WHERE
+		userID=#{userid} AND
+		aliveness=#{aliveness} AND week=#{week} AND year=#{year};
+	</select>
+
+	<!-- 一周内符合条件的健康数据集合 -->
+	<select id="selectHealthDatasByWeek" parameterType="com.intellingence.pojo.HealthDataQueryVo"
+		resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT ID,timestamp,state
+		FROM healthdata
+		WHERE
+		userID=#{userid} AND aliveness=#{aliveness} AND week=#{week} AND
+		year=#{year};
+	</select>
+
+	<select id="selectDatasToAmerica" resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT
+		userID,EC
+		FROM
+		healthdata
+		WHERE ID in(3003,3004)
+	</select>
+
+	<select id="selectHealthdataWithBLOBsByUserIDANDTimestamp"
+		parameterType="com.intellingence.pojo.HealthdataWithBLOBs" resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		SELECT
+		*
+		FROM
+		healthdata
+		WHERE userID=#{userid} AND timestamp=#{timestamp}
+	</select>
+	
+	<select id="selectHealthdataByIdAndUserid" parameterType="com.intellingence.pojo.HealthdataWithBLOBs" resultType="com.intellingence.pojo.HealthdataWithBLOBs">
+		select updatetime
+		from healthdata
+		where ID=#{id} and userID=#{userid}
+	</select>
+</mapper>

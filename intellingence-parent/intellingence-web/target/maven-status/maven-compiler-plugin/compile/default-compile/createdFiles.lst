@@ -1,0 +1,8 @@
+com\intellingence\controller\PlanningController.class
+com\intellingence\controller\UserinfoController.class
+com\intellingence\controller\LoginController.class
+com\intellingence\controller\ReportController.class
+com\intellingence\controller\QRCodeController.class
+com\intellingence\controller\BoundingController.class
+com\intellingence\controller\VersionController.class
+com\intellingence\controller\ShoePadController.class
